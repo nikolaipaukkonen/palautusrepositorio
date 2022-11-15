@@ -7,6 +7,10 @@ class Player:
         self.penalties = penalties
         self.team = team
         self.games = games
+
+    def points(self):
+        return self.assists + self.goals
     
     def __str__(self):
-        return f'{self.name} team {self.team} goals {self.goals} assists {self.assists}'
+        points = self.assists + self.goals
+        return f'{self.name:<25} {self.team} {self.goals:>2} + {self.assists:<2} = {points}'

@@ -23,9 +23,11 @@ def main():
 
         players.append(player)
 
-    print("Oliot:")
+    print("List of players:")
 
-    for player in players:
+    by_points = sorted(players, key=lambda player: player.points(), reverse=True)
+
+    for player in by_points:
         print(player)
 
 if __name__ == "__main__":
