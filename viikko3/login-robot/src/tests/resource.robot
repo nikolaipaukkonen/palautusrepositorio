@@ -2,6 +2,9 @@
 Library  ../AppLibrary.py
 
 *** Keywords ***
+Input Create User
+    Input  new
+
 Input Login Command
     Input  login
 
