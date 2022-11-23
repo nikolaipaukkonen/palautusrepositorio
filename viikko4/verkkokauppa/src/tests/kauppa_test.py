@@ -8,7 +8,7 @@ from tuote import Tuote
 class TestKauppa(unittest.TestCase):
     def setUp(self):
         self.pankki_mock = Mock()
-        self.viitegeneraattori_mock = Mock()
+        self.viitegeneraattori_mock = Mock(wraps=Viitegeneraattori())
         self.varasto_mock = Mock()
         self.viitegeneraattori_mock.uusi.return_value = 42
 
@@ -83,4 +83,38 @@ class TestKauppa(unittest.TestCase):
         kauppa.lisaa_koriin(3)
         kauppa.tilimaksu("testi", "12345")
 
-        self.pankki_mock.tilisiirto.assert_called_with("testi", 42, "12345", ANY, 5)   
+        self.pankki_mock.tilisiirto.assert_called_with("testi", 42, "12345", ANY, 5)
+
+    def test_aloita_asiointi_nollaa_edellisen_ostoksen_tiedot(self):
+        kauppa = Kauppa(self.varasto_mock, self.pankki_mock, self.viitegeneraattori_mock)
+        
+        kauppa.aloita_asiointi()
+        kauppa.lisaa_koriin(1)
+        kauppa.lisaa_koriin(2)
+        kauppa.aloita_asiointi()
+        kauppa.lisaa_koriin(1)
+        kauppa.tilimaksu("testi", "12345")
+
+        self.pankki_mock.tilisiirto.assert_called_with("testi", 42, "12345", ANY, 5) 
+
+    def test_kauppa_pyytaa_uuden_viitteen_jokaiselle_maksutapahtumalle(self):
+        kauppa = Kauppa(self.varasto_mock, self.pankki_mock, self.viitegeneraattori_mock)
+        
+        kauppa.aloita_asiointi()
+        kauppa.lisaa_koriin(1)
+        kauppa.tilimaksu("testi", "12345")
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 1)
+        kauppa.aloita_asiointi()
+        kauppa.lisaa_koriin(2)
+        kauppa.tilimaksu("testi2", "9999")
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 2)
+
+    def test_tuotteen_poistaminen_toimii(self):
+        kauppa = Kauppa(self.varasto_mock, self.pankki_mock, self.viitegeneraattori_mock)
+        
+        kauppa.aloita_asiointi()
+        kauppa.lisaa_koriin(1)
+        kauppa.poista_korista(1)
+        kauppa.tilimaksu("testi", "12345")
+
+        self.pankki_mock.tilisiirto.assert_called_with("testi", 42, "12345", ANY, 0)
