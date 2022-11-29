@@ -1,5 +1,6 @@
 from enum import Enum
 from tkinter import ttk, constants, StringVar
+from komentotehdas import Komentotehdas
 
 
 class Komento(Enum):
@@ -13,6 +14,7 @@ class Kayttoliittyma:
     def __init__(self, sovellus, root):
         self._sovellus = sovellus
         self._root = root
+        self.komentotehdas = Komentotehdas(self._sovellus, self._root)
 
     def kaynnista(self):
         self._tulos_var = StringVar()
