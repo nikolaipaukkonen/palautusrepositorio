@@ -4,18 +4,14 @@ KAPASITEETTI = 5
 OLETUSKASVATUS = 5
 
 class IntJoukko:
-    def __init__(self, kapasiteetti=None, kasvatuskoko=None):
-        if kapasiteetti is None:
-            self.kapasiteetti = KAPASITEETTI
-        elif not isinstance(kapasiteetti, int) or kapasiteetti < 0:
+    def __init__(self, kapasiteetti=KAPASITEETTI, kasvatuskoko=OLETUSKASVATUS):
+        if not isinstance(kapasiteetti, int) or kapasiteetti < 0:
             raise Exception("Kapasiteetti on väärässä muodossa")
         else:
             self.kapasiteetti = kapasiteetti
 
-        if kasvatuskoko is None:
-            self.kasvatuskoko = OLETUSKASVATUS
-        elif not isinstance(kapasiteetti, int) or kapasiteetti < 0:
-            raise Exception("Kapasiteetti on väärässä muodossa")
+        if not isinstance(kasvatuskoko, int) or kasvatuskoko < 0:
+            raise Exception("Kasvatuskoko on väärässä muodossa")
         else:
             self.kasvatuskoko = kasvatuskoko
 
@@ -30,9 +26,7 @@ class IntJoukko:
             if luku == self.lukujono[i]:
                 kuuluu_joukkoon = True
 
-        if kuuluu_joukkoon:
-            return True
-        return False
+        return kuuluu_joukkoon
 
     def lisaa(self, lisattava):
         if self.alkioiden_lukumaara == 0:
@@ -55,25 +49,11 @@ class IntJoukko:
         return False
 
     def poista(self, poistettava):
-        kohta = -1
-        apu = 0
-
         for i in range(0, self.alkioiden_lukumaara):
             if poistettava == self.lukujono[i]:
-                kohta = i  
-                self.lukujono[kohta] = 0
-                break
-
-        if kohta != -1:
-            for j in range(kohta, self.alkioiden_lukumaara - 1):
-                apu = self.lukujono[j]
-                self.lukujono[j] = self.lukujono[j + 1]
-                self.lukujono[j + 1] = apu
-
-            self.alkioiden_lukumaara = self.alkioiden_lukumaara - 1
-            return True
-
-        return False
+                del self.lukujono[i]
+                self.alkioiden_lukumaara = self.alkioiden_lukumaara - 1
+                return True
 
     def kopioi_taulukko(self, kopioitava, kohde):
         for i in range(0, len(kopioitava)):
