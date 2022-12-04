@@ -6,81 +6,79 @@ class IntJoukko:
         if kapasiteetti is None:
             self.kapasiteetti = KAPASITEETTI
         elif not isinstance(kapasiteetti, int) or kapasiteetti < 0:
-            raise Exception("Väärä kapasiteetti")  
+            raise Exception("Kapasiteetti on väärässä muodossa")
         else:
             self.kapasiteetti = kapasiteetti
 
         if kasvatuskoko is None:
             self.kasvatuskoko = OLETUSKASVATUS
         elif not isinstance(kapasiteetti, int) or kapasiteetti < 0:
-            raise Exception("kapasiteetti2")  
+            raise Exception("Kapasiteetti on väärässä muodossa")
         else:
             self.kasvatuskoko = kasvatuskoko
 
-        self.ljono = [0] * self.kapasiteetti
+        self.lukujono = [0] * self.kapasiteetti
 
         self.alkioiden_lukumaara = 0
 
-    def kuuluu_joukkoon(self, n):
-        on = 0
+    def kuuluu_joukkoon(self, luku):
+        kuuluu_joukkoon = False
 
         for i in range(0, self.alkioiden_lukumaara):
-            if n == self.ljono[i]:
-                on = on + 1
+            if luku == self.lukujono[i]:
+                kuuluu_joukkoon = True
 
-        if on > 0:
+        if kuuluu_joukkoon:
             return True
         else:
             return False
 
-    def lisaa(self, n):
-        ei_ole = 0
-
+    def lisaa(self, lisattava):
         if self.alkioiden_lukumaara == 0:
-            self.ljono[0] = n
+            self.lukujono[0] = lisattava
             self.alkioiden_lukumaara = self.alkioiden_lukumaara + 1
             return True
         else:
             pass
 
-        if not self.kuuluu_joukkoon(n):
-            self.ljono[self.alkioiden_lukumaara] = n
+        if not self.kuuluu_joukkoon(lisattava):
+            self.lukujono[self.alkioiden_lukumaara] = lisattava
             self.alkioiden_lukumaara = self.alkioiden_lukumaara + 1
 
-            if self.alkioiden_lukumaara % len(self.ljono) == 0:
-                taulukko_old = self.ljono
-                self.kopioi_taulukko(self.ljono, taulukko_old)
-                self.ljono = [0] * (self.alkioiden_lukumaara + self.kasvatuskoko)
-                self.kopioi_taulukko(taulukko_old, self.ljono)
+            if self.alkioiden_lukumaara % len(self.lukujono) == 0:
+                taulukko_old = self.lukujono
+                self.kopioi_taulukko(self.lukujono, taulukko_old)
+                self.lukujono = [0] * (self.alkioiden_lukumaara + self.kasvatuskoko)
+                self.kopioi_taulukko(taulukko_old, self.lukujono)
 
             return True
 
         return False
 
-    def poista(self, n):
+    def poista(self, poistettava):
         kohta = -1
         apu = 0
 
         for i in range(0, self.alkioiden_lukumaara):
-            if n == self.ljono[i]:
+            if poistettava == self.lukujono[i]:
                 kohta = i  # siis luku löytyy tuosta kohdasta :D
-                self.ljono[kohta] = 0
+                self.lukujono[kohta] = 0
                 break
 
         if kohta != -1:
             for j in range(kohta, self.alkioiden_lukumaara - 1):
-                apu = self.ljono[j]
-                self.ljono[j] = self.ljono[j + 1]
-                self.ljono[j + 1] = apu
+                apu = self.lukujono[j]
+                self.lukujono[j] = self.lukujono[j + 1]
+                self.lukujono[j + 1] = apu
 
             self.alkioiden_lukumaara = self.alkioiden_lukumaara - 1
             return True
 
         return False
 
-    def kopioi_taulukko(self, a, b):
-        for i in range(0, len(a)):
-            b[i] = a[i]
+    def kopioi_taulukko(self, kopioitava, kohde):
+        for i in range(0, len(kopioitava)):
+            kohde[i] = kopioitava[i]
 
     def get_alkioiden_lukumaara(self):
         return self.alkioiden_lukumaara
@@ -89,7 +87,7 @@ class IntJoukko:
         taulu = [0] * self.alkioiden_lukumaara
 
         for i in range(0, len(taulu)):
-            taulu[i] = self.ljono[i]
+            taulu[i] = self.lukujono[i]
 
         return taulu
 
@@ -138,12 +136,12 @@ class IntJoukko:
         if self.alkioiden_lukumaara == 0:
             return "{}"
         elif self.alkioiden_lukumaara == 1:
-            return "{" + str(self.ljono[0]) + "}"
+            return "{" + str(self.lukujono[0]) + "}"
         else:
             tuotos = "{"
             for i in range(0, self.alkioiden_lukumaara - 1):
-                tuotos = tuotos + str(self.ljono[i])
+                tuotos = tuotos + str(self.lukujono[i])
                 tuotos = tuotos + ", "
-            tuotos = tuotos + str(self.ljono[self.alkioiden_lukumaara - 1])
+            tuotos = tuotos + str(self.lukujono[self.alkioiden_lukumaara - 1])
             tuotos = tuotos + "}"
             return tuotos
