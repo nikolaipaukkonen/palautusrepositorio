@@ -30,16 +30,13 @@ class IntJoukko:
 
         if kuuluu_joukkoon:
             return True
-        else:
-            return False
+        return False
 
     def lisaa(self, lisattava):
         if self.alkioiden_lukumaara == 0:
             self.lukujono[0] = lisattava
             self.alkioiden_lukumaara = self.alkioiden_lukumaara + 1
             return True
-        else:
-            pass
 
         if not self.kuuluu_joukkoon(lisattava):
             self.lukujono[self.alkioiden_lukumaara] = lisattava
@@ -92,56 +89,56 @@ class IntJoukko:
         return taulu
 
     @staticmethod
-    def yhdiste(a, b):
-        x = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+    def yhdiste(ensimmainen_joukko, toinen_joukko):
+        int_joukko = IntJoukko()
+        ensimmainen_taulu = ensimmainen_joukko.to_int_list()
+        toinen_taulu = toinen_joukko.to_int_list()
 
-        for i in range(0, len(a_taulu)):
-            x.lisaa(a_taulu[i])
+        for i in range(0, len(ensimmainen_taulu)):
+            int_joukko.lisaa(ensimmainen_taulu[i])
 
-        for i in range(0, len(b_taulu)):
-            x.lisaa(b_taulu[i])
+        for i in range(0, len(toinen_taulu)):
+            int_joukko.lisaa(toinen_taulu[i])
 
-        return x
-
-    @staticmethod
-    def leikkaus(a, b):
-        y = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
-
-        for i in range(0, len(a_taulu)):
-            for j in range(0, len(b_taulu)):
-                if a_taulu[i] == b_taulu[j]:
-                    y.lisaa(b_taulu[j])
-
-        return y
+        return int_joukko
 
     @staticmethod
-    def erotus(a, b):
-        z = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+    def leikkaus(ensimmainen_joukko, toinen_joukko):
+        int_joukko = IntJoukko()
+        ensimmainen_taulu = ensimmainen_joukko.to_int_list()
+        toinen_taulu = toinen_joukko.to_int_list()
 
-        for i in range(0, len(a_taulu)):
-            z.lisaa(a_taulu[i])
+        for i in range(0, len(ensimmainen_taulu)):
+            for j in range(0, len(toinen_taulu)):
+                if ensimmainen_taulu[i] == toinen_taulu[j]:
+                    int_joukko.lisaa(toinen_taulu[j])
 
-        for i in range(0, len(b_taulu)):
-            z.poista(b_taulu[i])
+        return int_joukko
 
-        return z
+    @staticmethod
+    def erotus(ensimmainen_joukko, toinen_joukko):
+        int_joukko = IntJoukko()
+        ensimmainen_taulu = ensimmainen_joukko.to_int_list()
+        toinen_taulu = toinen_joukko.to_int_list()
+
+        for i in range(0, len(ensimmainen_taulu)):
+            int_joukko.lisaa(ensimmainen_taulu[i])
+
+        for i in range(0, len(toinen_taulu)):
+            int_joukko.poista(toinen_taulu[i])
+
+        return int_joukko
 
     def __str__(self):
         if self.alkioiden_lukumaara == 0:
             return "{}"
-        elif self.alkioiden_lukumaara == 1:
+        if self.alkioiden_lukumaara == 1:
             return "{" + str(self.lukujono[0]) + "}"
-        else:
-            tuotos = "{"
-            for i in range(0, self.alkioiden_lukumaara - 1):
-                tuotos = tuotos + str(self.lukujono[i])
-                tuotos = tuotos + ", "
-            tuotos = tuotos + str(self.lukujono[self.alkioiden_lukumaara - 1])
-            tuotos = tuotos + "}"
-            return tuotos
+
+        tuotos = "{"
+        for i in range(0, self.alkioiden_lukumaara - 1):
+            tuotos = tuotos + str(self.lukujono[i])
+            tuotos = tuotos + ", "
+        tuotos = tuotos + str(self.lukujono[self.alkioiden_lukumaara - 1])
+        tuotos = tuotos + "}"
+        return tuotos
