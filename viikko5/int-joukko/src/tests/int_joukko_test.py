@@ -1,10 +1,12 @@
 import unittest
 from int_joukko import IntJoukko
+from services.joukkooppi_service import JoukkoOppiService
 
 
 class TestIntJoukko(unittest.TestCase):
     def setUp(self):
         self.joukko = IntJoukko()
+        self.joukko_oppi_service = JoukkoOppiService()
         self.joukko.lisaa(10)
         self.joukko.lisaa(3)
 
@@ -83,7 +85,7 @@ class TestIntJoukko(unittest.TestCase):
         eka = self.tee_joukko(1, 2)
         toka = self.tee_joukko(3, 4)
 
-        tulos = IntJoukko.yhdiste(eka, toka)
+        tulos = self.joukko_oppi_service.yhdiste(eka, toka)
         vastauksen_luvut = tulos.to_int_list()
 
         odotettu = [1, 2, 3, 4]
@@ -94,7 +96,7 @@ class TestIntJoukko(unittest.TestCase):
         eka = self.tee_joukko(1, 2)
         toka = self.tee_joukko(2, 3, 4)
 
-        tulos = IntJoukko.leikkaus(eka, toka)
+        tulos = self.joukko_oppi_service.leikkaus(eka, toka)
         vastauksen_luvut = tulos.to_int_list()
 
         odotettu = [2]
@@ -105,7 +107,7 @@ class TestIntJoukko(unittest.TestCase):
         eka = self.tee_joukko(1, 2, 5, 6)
         toka = self.tee_joukko(2, 3, 4)
 
-        tulos = IntJoukko.erotus(eka, toka)
+        tulos = self.joukko_oppi_service.erotus(eka, toka)
         vastauksen_luvut = tulos.to_int_list()
 
         odotettu = [1, 5, 6]

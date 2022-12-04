@@ -1,3 +1,5 @@
+from services.joukkooppi_service import JoukkoOppiService
+
 KAPASITEETTI = 5
 OLETUSKASVATUS = 5
 
@@ -58,7 +60,7 @@ class IntJoukko:
 
         for i in range(0, self.alkioiden_lukumaara):
             if poistettava == self.lukujono[i]:
-                kohta = i  # siis luku löytyy tuosta kohdasta :D
+                kohta = i  
                 self.lukujono[kohta] = 0
                 break
 
@@ -87,47 +89,6 @@ class IntJoukko:
             taulu[i] = self.lukujono[i]
 
         return taulu
-
-    @staticmethod
-    def yhdiste(ensimmainen_joukko, toinen_joukko):
-        int_joukko = IntJoukko()
-        ensimmainen_taulu = ensimmainen_joukko.to_int_list()
-        toinen_taulu = toinen_joukko.to_int_list()
-
-        for i in range(0, len(ensimmainen_taulu)):
-            int_joukko.lisaa(ensimmainen_taulu[i])
-
-        for i in range(0, len(toinen_taulu)):
-            int_joukko.lisaa(toinen_taulu[i])
-
-        return int_joukko
-
-    @staticmethod
-    def leikkaus(ensimmainen_joukko, toinen_joukko):
-        int_joukko = IntJoukko()
-        ensimmainen_taulu = ensimmainen_joukko.to_int_list()
-        toinen_taulu = toinen_joukko.to_int_list()
-
-        for i in range(0, len(ensimmainen_taulu)):
-            for j in range(0, len(toinen_taulu)):
-                if ensimmainen_taulu[i] == toinen_taulu[j]:
-                    int_joukko.lisaa(toinen_taulu[j])
-
-        return int_joukko
-
-    @staticmethod
-    def erotus(ensimmainen_joukko, toinen_joukko):
-        int_joukko = IntJoukko()
-        ensimmainen_taulu = ensimmainen_joukko.to_int_list()
-        toinen_taulu = toinen_joukko.to_int_list()
-
-        for i in range(0, len(ensimmainen_taulu)):
-            int_joukko.lisaa(ensimmainen_taulu[i])
-
-        for i in range(0, len(toinen_taulu)):
-            int_joukko.poista(toinen_taulu[i])
-
-        return int_joukko
 
     def __str__(self):
         if self.alkioiden_lukumaara == 0:
