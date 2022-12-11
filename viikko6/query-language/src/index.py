@@ -1,5 +1,6 @@
 from statistics import Statistics
 from player_reader import PlayerReader
+from matchers import And, HasAtLeast, PlaysIn, All, HasFewerThan, Not, Or
 from querybuilder import QueryBuilder
 
 def main():
@@ -16,6 +17,10 @@ def main():
     for player in stats.matches(matcher):
         print(player)
 
+
+    print("-" * 50)
+
+    
     m1 = (
     query
         .playsIn("PHI")
@@ -33,6 +38,9 @@ def main():
 
     matcher = query.oneOf(m1, m2).build()
     
+
+    for player in stats.matches(matcher):
+        print(player)
 
 
 

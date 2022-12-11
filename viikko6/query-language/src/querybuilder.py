@@ -6,21 +6,18 @@ class QueryBuilder:
         self._query = query
 
     def hasAtLeast(self, value, attr):
-        self._query.append(HasAtLeast(value, attr))
-        return QueryBuilder(self._query)
+        return QueryBuilder(And(self._query, 
+                                HasAtLeast(value, attr)))
 
     def playsIn(self, team):
-        self._query.append(PlaysIn(team))
-        return QueryBuilder(self._query)
+        return QueryBuilder(And(self._query, PlaysIn(team)))
 
     def hasFewerThan(self, value, attr):
-        self._query.append(HasFewerThan(value, attr))
-        return QueryBuilder(self._query)
+        return QueryBuilder(And(self._query, 
+                                HasFewerThan(value, attr)))
 
-    def oneOf(self, *queries):
-        for query in queries:
-            self._query.append(Or(query._matchers))
-        return QueryBuilder(self._query)
+    def oneOf(self, *query):
+        return QueryBuilder(Or(*query))
 
     def build(self):
-        return And(*self._query)
+        return self._query
