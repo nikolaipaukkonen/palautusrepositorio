@@ -9,12 +9,13 @@ def main():
 
     matcher = And(
         Not(HasAtLeast(1, "goals")),
-        PlaysIn("EDM")
+        PlaysIn("NYR")
     )
 
     for player in stats.matches(matcher):
         print(player)
 
+    print("-" * 50)
     matcher = And(
         HasFewerThan(1, "goals"),
         PlaysIn("NYR")
