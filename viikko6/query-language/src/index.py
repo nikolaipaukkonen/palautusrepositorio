@@ -8,10 +8,6 @@ def main():
     stats = Statistics(reader)
 
     query = QueryBuilder()
-    matcher = query.playsIn("NYR").build()
-
-    for player in stats.matches(matcher):
-        print(player)
 
     print("-" * 50)
 
