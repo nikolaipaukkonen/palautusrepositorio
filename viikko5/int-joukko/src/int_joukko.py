@@ -1,5 +1,3 @@
-from services.joukkooppi_service import JoukkoOppiService
-
 KAPASITEETTI = 5
 OLETUSKASVATUS = 5
 
