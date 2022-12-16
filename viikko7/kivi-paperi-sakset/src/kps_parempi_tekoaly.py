@@ -1,8 +1,9 @@
 from tuomari import Tuomari
 from tekoaly_parannettu import TekoalyParannettu
+from kivipaperisakset import KiviPaperiSakset
 
 
-class KPSParempiTekoaly:
+class KPSParempiTekoaly(KiviPaperiSakset):
     def __init__(self):
         self._tekoaly = TekoalyParannettu()
 
